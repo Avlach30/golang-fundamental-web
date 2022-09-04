@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"fmt"
+	"fundamental-webdev/entity"
 	"html/template"
 	"net/http"
 	"path"
@@ -67,10 +67,17 @@ func GetPlantsHandler(res http.ResponseWriter, req *http.Request) {
 
 	//* If id query parameter is undefined
 	if id == "" {
-		//* Mendeklarasikan data untuk ditampilkan ke html template dengan nilai bebas
-		renderData := map[string]interface{}{
-			"title": "Plants page",
-			"content": "Plant list:\n1.Apple\n2.Strawberry",
+		
+		// renderData := map[string]interface{}{
+		// 	"title": "Plants page",
+		// 	"content": "Plant list:\n1.Apple\n2.Strawberry",
+		// }
+
+		//* Mendeklarasikan data dengan tipe object untuk ditampilkan ke template
+		renderData := entity.Plant{
+			ID: 1,
+			Name: "padi",
+			Description: "penghasil beras",
 		}
 
 		//* Mengeksekusi temp variabel supaya bisa dijadikan response render dengan nilai dinamis
@@ -91,10 +98,16 @@ func GetPlantsHandler(res http.ResponseWriter, req *http.Request) {
 
 	//* If id query parameter is defined
 	if idNum >= 1 {
-		renderData := map[string]interface{}{
-			"title": "Plants page",
-			"content": fmt.Sprintf("Plants id: %d", idNum),
+		renderData := entity.Plant{
+			ID: idNum,
+			Name: "padi",
+			Description: "penghasil beras",
 		}
+
+		// renderData := map[string]interface{}{
+		// 	"title": "Plants page",
+		// 	"content": fmt.Sprintf("Plants id: %d", idNum),
+		// }
 
 		err = temp.Execute(res, renderData) 
 		if err != nil {
