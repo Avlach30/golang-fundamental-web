@@ -2,7 +2,9 @@ package handler
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
+	"path"
 	"strconv"
 )
 
@@ -16,6 +18,10 @@ func errorResponse(res http.ResponseWriter, req *http.Request, status int, messa
 	if status == http.StatusBadRequest { //* Handler for bad request error 
 		res.Write([]byte(message))
 	}
+
+	if status == http.StatusInternalServerError { //* Handler for internal server error
+		res.Write([]byte(message))
+	}
 }
 
 func RootHandler(res http.ResponseWriter, req *http.Request) {
@@ -24,7 +30,19 @@ func RootHandler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	res.Write([]byte("Hello world!"))
+	//* Memparsing file index.html sebagai template views
+	temp, err := template.ParseFiles(path.Join("views", "index.html"))
+	if (err != nil) {
+		errorResponse(res, req, http.StatusInternalServerError, "Render failed! keep calm")
+		return
+	}
+
+	err = temp.Execute(res, nil) //* Mengeksekusi temp variabel supaya bisa dijadikan response render
+	if (err != nil) {
+		errorResponse(res, req, http.StatusInternalServerError, "Render failed! keep calm")
+		return
+	}
+	// res.Write([]byte("Hello world!"))
 }
 
 func RootApiHandler(res http.ResponseWriter, req *http.Request) {
