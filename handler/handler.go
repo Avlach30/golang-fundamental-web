@@ -25,7 +25,7 @@ func errorResponse(res http.ResponseWriter, req *http.Request, status int, messa
 }
 
 func RootHandler(res http.ResponseWriter, req *http.Request) {
-	if req.URL.Path == "/" { 
+	if req.URL.Path == "/" {
 		errorResponse(res, req, http.StatusNotFound, "Data not found")
 		return
 	}
@@ -67,21 +67,21 @@ func GetPlantsHandler(res http.ResponseWriter, req *http.Request) {
 
 	//* If id query parameter is undefined
 	if id == "" {
-		
+
 		// renderData := map[string]interface{}{
 		// 	"title": "Plants page",
 		// 	"content": "Plant list:\n1.Apple\n2.Strawberry",
 		// }
 
-		//* Mendeklarasikan data dengan tipe object untuk ditampilkan ke template
-		renderData := entity.Plant{
-			ID: 1,
-			Name: "padi",
-			Description: "penghasil beras",
+		//* Mendeklarasikan data dengan tipe data array of object untuk ditampilkan ke template
+		renderData := []entity.Plant{
+			{ID: 1, Name: "padi", Description: "penghasil beras"},
+			{ID: 2, Name: "cabai", Description: "penghasil rempah terbaik"},
+			{ID: 3, Name: "kentang", Description: "penghasil karbohidrat"},
 		}
 
 		//* Mengeksekusi temp variabel supaya bisa dijadikan response render dengan nilai dinamis
-		err = temp.Execute(res, renderData) 
+		err = temp.Execute(res, renderData)
 		if err != nil {
 			errorResponse(res, req, http.StatusInternalServerError, "Render failed! keep calm")
 			return
@@ -99,8 +99,8 @@ func GetPlantsHandler(res http.ResponseWriter, req *http.Request) {
 	//* If id query parameter is defined
 	if idNum >= 1 {
 		renderData := entity.Plant{
-			ID: idNum,
-			Name: "padi",
+			ID:          idNum,
+			Name:        "padi",
 			Description: "penghasil beras",
 		}
 
@@ -109,7 +109,13 @@ func GetPlantsHandler(res http.ResponseWriter, req *http.Request) {
 		// 	"content": fmt.Sprintf("Plants id: %d", idNum),
 		// }
 
-		err = temp.Execute(res, renderData) 
+		temp, err := template.ParseFiles(path.Join("views", "plant.html"))
+		if err != nil {
+			errorResponse(res, req, http.StatusInternalServerError, "Render failed! keep calm")
+			return
+		}
+
+		err = temp.Execute(res, renderData)
 		if err != nil {
 			errorResponse(res, req, http.StatusInternalServerError, "Render failed! keep calm")
 			return
