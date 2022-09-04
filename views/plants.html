@@ -5,12 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Menampilkan nilai berdasarkan key di maps yang telah di deklarasikan -->
-    <title>{{ .title }}</title>
+    <title>plants page</title>
 </head>
 <body>
-    <h1>{{ .title }}</h1>
-    <p>
-        {{ .content }}
-    </p>
+    <h1>Plants Page</h1>
+    <div>
+        <h2>Plant list</h2>
+        <ul>
+            <li>Id: {{ .ID }} </li>
+            <li>Name: {{ .Name }} </li>
+            <li>Desc: {{ .Description }} </li>
+        </ul>
+    </div>
 </body>
 </html>
