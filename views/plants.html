@@ -11,11 +11,12 @@
     <h1>Plants Page</h1>
     <div>
         <h2>Plant list</h2>
+        <!-- Menampilkan beberapa struct dengan perulangan -->
+        {{ range. }}
         <ul>
-            <li>Id: {{ .ID }} </li>
             <li>Name: {{ .Name }} </li>
-            <li>Desc: {{ .Description }} </li>
         </ul>
+        {{ end }}
     </div>
 </body>
 </html>
