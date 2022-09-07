@@ -137,4 +137,41 @@ func FetchHTTPMethod(res http.ResponseWriter, req *http.Request) {
 	default:
 		errorResponse(res, req, http.StatusBadRequest, "Sorry! only GET and POST method allowed by server!")
 	}
-} 
+}
+
+func GetAddPlantForm(res http.ResponseWriter, req *http.Request) {
+	if req.Method == "GET" {
+		temp, err := template.ParseFiles(path.Join("views", "form-add-plant.html"))
+		if err != nil {
+			errorResponse(res, req, http.StatusInternalServerError, "Render failed! keep calm")
+			return
+		}
+
+		err = temp.Execute(res, nil)
+		if err != nil {
+			errorResponse(res, req, http.StatusInternalServerError, "Render failed! keep calm")
+			return
+		}
+		return
+	} else {
+		errorResponse(res, req, http.StatusBadRequest, "Sorry! only GET method allowed by server!")
+		return
+	}
+}
+
+func ProcessAddPlantForm(res http.ResponseWriter, req *http.Request) {
+	if req.Method == "POST" {
+		err := req.ParseForm() //* Parsing form value from request client
+		if err != nil {
+			errorResponse(res, req, http.StatusInternalServerError, "Error occured! keep calm")
+			return
+		} else {
+			plantDesc := req.Form.Get("description") //* Get value from input description by form
+			res.Write([]byte(plantDesc))
+			return
+		}
+	} else {
+		errorResponse(res, req, http.StatusBadRequest, "Sorry! only GET method allowed by server!")
+		return
+	}
+}
