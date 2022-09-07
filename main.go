@@ -13,7 +13,6 @@ func main() {
 	//* Mendeklarasikan fungsi untuk http request dengan parameter pertama endpoint, parameter kedua handler function
 	mux.HandleFunc("/", handler.RootHandler)
 	mux.HandleFunc("/api", handler.RootApiHandler)
-	mux.HandleFunc("/api/plants", handler.GetPlantsHandler)
 
 	mux.HandleFunc("/api/http-method", handler.FetchHTTPMethod)
 
