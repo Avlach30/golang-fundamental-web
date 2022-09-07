@@ -125,3 +125,16 @@ func GetPlantsHandler(res http.ResponseWriter, req *http.Request) {
 	}
 
 }
+
+func FetchHTTPMethod(res http.ResponseWriter, req *http.Request) {
+	METHOD := req.Method //* Fetch HTTP request method from client
+
+	switch METHOD {
+	case "GET":
+		res.Write([]byte("GET method requested by client"))
+	case "POST":
+		res.Write([]byte("POST method requested by client"))
+	default:
+		errorResponse(res, req, http.StatusBadRequest, "Sorry! only GET and POST method allowed by server!")
+	}
+} 
