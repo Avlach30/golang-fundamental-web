@@ -15,6 +15,11 @@ func main() {
 	mux.HandleFunc("/api", handler.RootApiHandler)
 	mux.HandleFunc("/api/plants", handler.GetPlantsHandler)
 
+	fileServer := http.FileServer(http.Dir("assets")) //* Handle static file based on 'assets' directory
+
+	//*handle static directory so can accessed via localhost endpoint
+	mux.Handle("/assets/", http.StripPrefix("/assets", fileServer))
+
 	log.Println("Server connected at http://localhost:5000")
 
 	//* Menjalankan server dengan port 5000 dengan http handler nya
