@@ -15,6 +15,8 @@ func main() {
 	mux.HandleFunc("/api", handler.RootApiHandler)
 	mux.HandleFunc("/api/plants", handler.GetPlantsHandler)
 
+	mux.HandleFunc("/api/http-method", handler.FetchHTTPMethod)
+
 	fileServer := http.FileServer(http.Dir("assets")) //* Handle static file based on 'assets' directory
 
 	//*handle static directory so can accessed via localhost endpoint
